@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
+
+Route::group(['prefix' => '/dashboard', 'middleware' => ['role:staff','role:employee']], function () {
+    Route::get('/salary', [Controllers\SalaryController::class, 'index'])->name('salary');
+    Route::get('/employee', [Controllers\SalaryController::class, 'index'])->name('employee');
+});
+
+Route::post('/login', [LoginController::class, 'login'])->name('login');
