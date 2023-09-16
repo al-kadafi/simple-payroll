@@ -1,7 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\AttendanceController;
+use App\Http\Controllers\Dashboard\SalaryController;
+use App\Http\Controllers\Dashboard\EmployeeController;
+use App\Http\Controllers\Dashboard\OvertimeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +18,31 @@ use App\Http\Controllers;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+//basic route
+Route::get('/', [LoginController::class, 'index'])->name('home');
+Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
+Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
 
-Route::group(['prefix' => '/dashboard', 'middleware' => ['role:staff','role:employee']], function () {
-    Route::get('/salary', [Controllers\SalaryController::class, 'index'])->name('salary');
-    Route::get('/employee', [Controllers\SalaryController::class, 'index'])->name('employee');
-});
-
+//auth route
 Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::group(['prefix' => '/dashboard', 'middleware' => ['auth']], function () {
+    Route::get('/salary', [SalaryController::class, 'index'])->name('salary');
+    //salary route
+    Route::get('/salary/view/{id}/{date}', [SalaryController::class, 'view'])->name('salary.slip');
+
+    Route::group(['middleware' => ['role:staff']], function () {
+        //overtime route
+        Route::get('/overtime', [OvertimeController::class, 'index'])->name('overtime');
+        Route::post('/overtime', [OvertimeController::class, 'store'])->name('overtime.store');
+        Route::get('/overtime/delete/{id}', [OvertimeController::class, 'delete'])->name('overtime.delete');
+
+        //salary route
+        Route::post('/salary/download', [SalaryController::class, 'download'])->name('download_slip');
+
+        //employee route
+        Route::get('/employee', [EmployeeController::class, 'index'])->name('employee');
+        Route::get('/employee/{id}', [EmployeeController::class, 'view'])->name('employee.view');
+    });
+});
