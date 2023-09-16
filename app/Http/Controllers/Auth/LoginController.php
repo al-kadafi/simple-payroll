@@ -7,19 +7,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
-{    
-    // /**
-    //  * index
-    //  *
-    //  * @return void
-    //  */
-    // public function index()
-    // {
-    //     return inertia('Auth/Login');
-    // }
-    
+{
     /**
-     * store
+     * index
+     *
+     * @return void
+     */
+    public function index()
+    {
+        return view('auth.login');
+    }
+
+    /**
+     * login
      *
      * @param  mixed $request
      * @return void
@@ -30,8 +30,8 @@ class LoginController extends Controller
          * validate request
          */
         $this->validate($request, [
-            'email'     => 'required|email',
-            'password'  => 'required'
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         //get email and password from request
@@ -39,18 +39,29 @@ class LoginController extends Controller
 
         //attempt to login
         if (Auth::attempt($credentials)) {
-
             //regenerate session
             $request->session()->regenerate();
 
             //redirect route dashboard
-            return redirect()->route('salary');
+            return redirect()->route('salary')->with('message', [
+                'title' => 'Success',
+                'type' => 'success',
+                'msg' => 'You have been successfully login',
+            ]);
         }
 
         //if login fails
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        // return back()->withErrors([
+        //     'email' => 'The provided credentials do not match our records.',
+        // ]);
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with('message', [
+                'title' => 'Error',
+                'type' => 'error',
+                'msg' => 'The provided credentials do not match our records',
+            ]);
     }
 
     /**
@@ -62,6 +73,10 @@ class LoginController extends Controller
     {
         auth()->logout();
 
-        return redirect('/');
+        return redirect('/')->with('message', [
+            'title' => 'Success',
+            'type' => 'success',
+            'msg' => 'You have been successfully logged out',
+        ]);
     }
 }
