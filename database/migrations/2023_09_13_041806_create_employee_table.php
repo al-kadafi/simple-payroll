@@ -19,11 +19,11 @@ class CreateEmployeeTable extends Migration
             $table->string('birth_place');
             $table->date('birth_date');
             $table->enum('gender', ['male', 'female']);
-            $table->string('position');
+            $table->enum('position', ['staff', 'lead', 'supervisor', 'manager', 'director']);
             $table->enum('status', ['permanent', 'contract','freelance']);
+            $table->date('join_date');
             $table->bigInteger('salary');
             $table->bigInteger('allowance');
-            $table->bigInteger('start_date');
             $table->softDeletes();
             $table->timestamps();
         });
