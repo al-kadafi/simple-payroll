@@ -124,7 +124,7 @@
                                                             <tr class="fw-bold text-gray-700 fs-6 text-end">
                                                                 <td class="d-flex align-items-center">
                                                                     <i
-                                                                        class="fa fa-genderless text-success fs-2 me-2"></i>Fixed
+                                                                        class="fa fa-genderless text-success fs-2 me-2"></i>Basic
                                                                     Allowance
                                                                 </td>
                                                                 <td>-</td>
@@ -200,7 +200,7 @@
                                                     <!--end::Section-->
                                                 </div>
                                                 <!--end::Container-->
-                                                <hr />
+                                                <div class="separator py-1 mb-6"></div>
                                                 <!--begin::Item-->
                                                 <div class="d-flex flex-stack">
                                                     <!--begin::Code-->
