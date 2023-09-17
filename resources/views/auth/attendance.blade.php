@@ -29,7 +29,7 @@
         <div class="fv-row mb-3">
             <label class="form-label">Date</label>
             <!--begin::Email-->
-            <input class="form-control form-control-solid" placeholder="Pick date rage" id="kt_date_picker"
+            <input class="form-control form-control-solid kt_date_picker" placeholder="Pick date"
                 name="date" required/>
             <!--end::Email-->
         </div>
@@ -65,12 +65,4 @@
         </div>
     </form>
     <!--end::Form-->
-@endsection
-@section('js')
-    @parent
-    <script>
-        $("#kt_date_picker").flatpickr({
-            dateFormat: "d F Y",
-        });
-    </script>
 @endsection
