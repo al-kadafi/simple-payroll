@@ -20,7 +20,15 @@ class OvertimeController extends Controller
      */
     public function index(Request $request)
     {
-        $overtimes = Overtime::oldest()->get();
+        $filter = $request->month ? Carbon::parse($request->month) : null;
+
+        $year = $filter ? $filter->year : Carbon::now()->year;
+        $month = $filter ? $filter->month : Carbon::now()->month;
+
+        $overtimes = Overtime::whereMonth('start_time', $month)
+            ->whereYear('start_time', $year)
+            ->oldest()
+            ->get();
         $employees = Employee::oldest()->get();
 
         return view('dashboard.overtime', ['overtimes' => $overtimes, 'employees' => $employees]);
@@ -60,14 +68,14 @@ class OvertimeController extends Controller
 
         $data = $request->except('_token', 'id');
 
-        Overtime::firstOrCreate(['id' => $request->id], $data);
+        Overtime::updateOrCreate(['id' => $request->id], $data);
 
         return redirect()
             ->back()
             ->with('message', [
                 'title' => 'Success',
                 'type' => 'success',
-                'msg' => 'Overtime data successfully added',
+                'msg' => 'Overtime data successfully ' . ($request->id ? 'edited' : 'added'),
             ]);
     }
 
