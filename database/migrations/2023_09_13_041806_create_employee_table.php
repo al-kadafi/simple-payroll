@@ -16,13 +16,15 @@ class CreateEmployeeTable extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('email');
             $table->string('birth_place');
             $table->date('birth_date');
             $table->enum('gender', ['male', 'female']);
             $table->enum('position', ['staff', 'lead', 'supervisor', 'manager', 'director']);
             $table->enum('status', ['permanent', 'contract','freelance']);
+            $table->boolean('insurance')->default(true);
             $table->date('join_date');
-            $table->bigInteger('salary');
+            $table->bigInteger('basic_salary');
             $table->bigInteger('allowance');
             $table->softDeletes();
             $table->timestamps();
