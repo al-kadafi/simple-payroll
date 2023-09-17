@@ -58,7 +58,7 @@
                                 <div class="d-flex align-items-center position-relative my-1">
                                     <i class="ki-outline ki-magnifier fs-3 position-absolute ms-5"></i>
                                     <input type="text" data-kt-custom-table-filter="search"
-                                        class="form-control form-control-solid w-250px ps-13" placeholder="Search user" />
+                                        class="form-control form-control-solid w-250px ps-13" placeholder="Search slip" />
                                 </div>
                                 <!--end::Search-->
                             </div>
@@ -162,21 +162,21 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-semibold">
-                                    @foreach($employees as $employee)
+                                    @foreach ($employees as $employee)
                                         <tr>
-                                            <td class="text-gray-800">{{$employee->name}}</td>
-                                            <td>{{ucfirst($employee->position)}}</td>
+                                            <td class="text-gray-800">{{ ucwords($employee->name) }}</td>
+                                            <td>{{ ucfirst($employee->position) }}</td>
                                             <td>
-                                                @if ($employee->status === "permanent")
+                                                @if ($employee->status === 'permanent')
                                                     <div class="text-info">Permanent</div>
-                                                @elseif ($employee->status === "contract")
+                                                @elseif ($employee->status === 'contract')
                                                     <div class="text-warning">Contract</div>
                                                 @else
                                                     <div class="text-primary">Freelance</div>
                                                 @endif
                                             </td>
-                                            <td>{{$employee->working_period}}</td>
-                                            <td>{{currency_format($employee->id * 1000000)}}</td>
+                                            <td>{{ $employee->working_period }}</td>
+                                            <td>{{ currency_format($employee->id * 1000000) }}</td>
                                             <td>
                                                 @if ($employee->id % 3 === 0)
                                                     <div class="badge py-3 px-4 fs-7 badge-light-success">Approved</div>
@@ -196,7 +196,8 @@
                                                     data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href={{ route('salary.slip', ['id' => $employee->id, 'date' => 'September 2023']) }} class="menu-link px-3">View</a>
+                                                        <a href={{ route('salary.slip', ['id' => $employee->id, 'date' => 'September 2023']) }}
+                                                            class="menu-link px-3">View</a>
                                                     </div>
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
