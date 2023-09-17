@@ -12,7 +12,7 @@
                     <div class="page-title d-flex flex-column justify-content-center me-3">
                         <!--begin::Title-->
                         <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                            Employee Salary</h1>
+                            Employee Data</h1>
                         <!--end::Title-->
                         <!--begin::Breadcrumb-->
                         <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -25,20 +25,10 @@
                             </li>
                             <!--end::Item-->
                             <!--begin::Item-->
-                            <li class="breadcrumb-item text-muted">Salary</li>
+                            <li class="breadcrumb-item text-muted">Employee List</li>
                             <!--end::Item-->
                         </ul>
                         <!--end::Breadcrumb-->
-                    </div>
-                    <!--end::Page title-->
-                    <div class="d-flex align-items-center fw-bold gap-2">
-                        <!--begin::Label-->
-                        <div class="text-gray-400 fs-7 me-2">Month</div>
-                        <!--end::Label-->
-                        <!--begin::Date-->
-                        <input class="form-control form-control-solid shadow-xs bg-body" placeholder="Pick a Month"
-                            id="month_period" />
-                        <!--end::Date-->
                     </div>
                 </div>
                 <!--end::Toolbar container-->
@@ -58,7 +48,7 @@
                                 <div class="d-flex align-items-center position-relative my-1">
                                     <i class="ki-outline ki-magnifier fs-3 position-absolute ms-5"></i>
                                     <input type="text" data-kt-custom-table-filter="search"
-                                        class="form-control form-control-solid w-250px ps-13" placeholder="Search user" />
+                                        class="form-control form-control-solid w-250px ps-13" placeholder="Search employee" />
                                 </div>
                                 <!--end::Search-->
                             </div>
@@ -67,154 +57,74 @@
                             <div class="card-toolbar">
                                 <!--begin::Toolbar-->
                                 <div class="d-flex justify-content-end" data-kt-custom-table-toolbar="base">
+                                    <!--begin::Filter-->
+                                    <button type="button" class="btn btn-light-primary me-3" data-kt-menu-trigger="click"
+                                        data-kt-menu-placement="bottom-end">
+                                        <i class="ki-outline ki-filter fs-2"></i>Filter</button>
+                                    <!--begin::Menu 1-->
+                                    <div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true">
+                                        <!--begin::Header-->
+                                        <div class="px-7 py-5">
+                                            <div class="fs-5 text-dark fw-bold">Filter Options</div>
+                                        </div>
+                                        <!--end::Header-->
+                                        <!--begin::Separator-->
+                                        <div class="separator border-gray-200"></div>
+                                        <!--end::Separator-->
+                                        <!--begin::Content-->
+                                        <div class="px-7 py-5" data-kt-custom-table-filter="form">
+                                            <!--begin::Input group-->
+                                            <div class="mb-10">
+                                                <label class="form-label fs-6 fw-semibold">Position :</label>
+                                                <select class="form-select form-select-solid fw-bold" data-kt-select2="true"
+                                                    data-placeholder="Select option" data-allow-clear="true"
+                                                    data-kt-custom-table-filter="position" data-hide-search="true">
+                                                    <option></option>
+                                                    <option value="Staff">Staff</option>
+                                                    <option value="Lead">Lead</option>
+                                                    <option value="Manager">Manager</option>
+                                                    <option value="Supervisor">Supervisor</option>
+                                                    <option value="Director">Director</option>
+                                                </select>
+                                            </div>
+                                            <!--end::Input group-->
+                                            <!--begin::Input group-->
+                                            <div class="mb-10">
+                                                <label class="form-label fs-6 fw-semibold">Employee Status :</label>
+                                                <select class="form-select form-select-solid fw-bold" data-kt-select2="true"
+                                                    data-placeholder="Select option" data-allow-clear="true"
+                                                    data-kt-custom-table-filter="status" data-hide-search="true">
+                                                    <option></option>
+                                                    <option value="Permanent">Permanent</option>
+                                                    <option value="Contract">Contract</option>
+                                                    <option value="Freelance">Freelance</option>
+                                                </select>
+                                            </div>
+                                            <!--end::Input group-->
+                                            <!--begin::Actions-->
+                                            <div class="d-flex justify-content-end">
+                                                <button type="reset"
+                                                    class="btn btn-light btn-active-light-primary fw-semibold me-2 px-6"
+                                                    data-kt-menu-dismiss="true"
+                                                    data-kt-custom-table-filter="reset">Reset</button>
+                                                <button type="submit" class="btn btn-primary fw-semibold px-6"
+                                                    data-kt-menu-dismiss="true"
+                                                    data-kt-custom-table-filter="filter">Apply</button>
+                                            </div>
+                                            <!--end::Actions-->
+                                        </div>
+                                        <!--end::Content-->
+                                    </div>
+                                    <!--end::Menu 1-->
+                                    <!--end::Filter-->
                                     <!--begin::Add data-->
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#kt_modal_add_data">
-                                        <i class="ki-outline ki-add-item fs-2"></i>Add Data</button>
+                                        <i class="ki-outline ki-add-item fs-2"></i>Add Employee</button>
                                     <!--end::Add data-->
                                 </div>
                                 <!--begin::Modal - Add data-->
-                                <div class="modal fade" data-bs-focus="false" id="kt_modal_add_data" tabindex="-1"
-                                    aria-hidden="true">
-                                    <!--begin::Modal dialog-->
-                                    <div class="modal-dialog modal-dialog-centered mw-500px">
-                                        <!--begin::Modal content-->
-                                        <div class="modal-content">
-                                            <!--begin::Modal header-->
-                                            <div class="modal-header" id="kt_modal_add_data_header">
-                                                <!--begin::Modal title-->
-                                                <h2 class="fw-bold">Overtime Data</h2>
-                                                <!--end::Modal title-->
-                                                <!--begin::Close-->
-                                                <div class="btn btn-icon btn-sm btn-active-icon-primary"
-                                                    data-bs-dismiss="modal">
-                                                    <i class="ki-outline ki-cross fs-1"></i>
-                                                </div>
-                                                <!--end::Close-->
-                                            </div>
-                                            <!--end::Modal header-->
-                                            <!--begin::Modal body-->
-                                            <div class="modal-body px-5 my-3">
-                                                <!--begin::Form-->
-                                                <form id="kt_modal_add_data_form" class="form" method="POST"
-                                                    action={{ route('overtime.store') }}>
-                                                    @csrf
-                                                    <!--begin::Scroll-->
-                                                    <div class="d-flex flex-column scroll-y px-3"
-                                                        id="kt_modal_add_data_scroll" data-kt-scroll="true"
-                                                        data-kt-scroll-activate="true" data-kt-scroll-max-height="auto"
-                                                        data-kt-scroll-dependencies="#kt_modal_add_data_header"
-                                                        data-kt-scroll-wrappers="#kt_modal_add_data_scroll"
-                                                        data-kt-scroll-offset="300px">
-                                                        <!--begin::Input group-->
-                                                        <div class="fv-row mb-7">
-                                                            <!--begin::Label-->
-                                                            <label class="required fw-semibold fs-6 mb-2">Employee</label>
-                                                            <!--end::Label-->
-                                                            <div class="input-group flex-nowrap">
-                                                                <span class="input-group-text">
-                                                                    <i class="ki-duotone ki-user fs-3"><span
-                                                                            class="path1"></span><span
-                                                                            class="path2"></span><span
-                                                                            class="path3"></span><span
-                                                                            class="path4"></span><span
-                                                                            class="path5"></span><span
-                                                                            class="path6"></span></i>
-                                                                </span>
-                                                                <div class="overflow-hidden flex-grow-1">
-                                                                    <!--begin::Select-->
-                                                                    <select name="employee_id"
-                                                                        class="form-select mb-3 mb-lg-0 rounded-start-0"
-                                                                        data-control="select2"
-                                                                        data-dropdown-parent="#kt_modal_add_data"
-                                                                        data-placeholder="Select Employee"
-                                                                        data-allow-clear="false" required>
-                                                                        <option></option>
-                                                                        @foreach ($employees as $employee)
-                                                                            <option value={{ $employee->id }}>
-                                                                                {{ $employee->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                    <!--end::Select-->
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!--end::Input group-->
-                                                        <!--begin::Input group-->
-                                                        <div class="fv-row mb-7">
-                                                            <!--begin::Label-->
-                                                            <label class="required fw-semibold fs-6 mb-2">Start Time</label>
-                                                            <!--end::Label-->
-                                                            <div class="input-group">
-                                                                <span class="input-group-text">
-                                                                    <i class="ki-duotone ki-calendar fs-2"><span
-                                                                            class="path1"></span><span
-                                                                            class="path2"></span></i>
-                                                                </span>
-                                                                <!--begin::Input-->
-                                                                <input name="start_time"
-                                                                    class="form-control mb-3 mb-lg-0 kt_datetime_picker"
-                                                                    placeholder="Select start time" required />
-                                                                <!--end::Input-->
-                                                            </div>
-
-                                                        </div>
-                                                        <!--end::Input group-->
-                                                        <!--begin::Input group-->
-                                                        <div class="fv-row mb-7">
-                                                            <!--begin::Label-->
-                                                            <label class="required fw-semibold fs-6 mb-2">End Time</label>
-                                                            <!--end::Label-->
-                                                            <div class="input-group">
-                                                                <span class="input-group-text">
-                                                                    <i class="ki-duotone ki-calendar fs-2"><span
-                                                                            class="path1"></span><span
-                                                                            class="path2"></span></i>
-                                                                </span>
-                                                                <!--begin::Input-->
-                                                                <input name="end_time"
-                                                                    class="form-control mb-3 mb-lg-0 kt_datetime_picker"
-                                                                    placeholder="Select end time" required />
-                                                                <!--end::Input-->
-                                                            </div>
-                                                        </div>
-                                                        <!--end::Input group-->
-                                                        <!--begin::Input group-->
-                                                        <div class="fv-row mb-7">
-                                                            <!--begin::Label-->
-                                                            <label class="fw-semibold fs-6 mb-2">Reason</label>
-                                                            <!--end::Label-->
-                                                            <!--begin::Input-->
-                                                            <textarea name="reason" class="form-control mb-3 mb-lg-0" placeholder="Describe overtime reason here"
-                                                                style="height: 150px"></textarea>
-                                                            <!--end::Input-->
-                                                        </div>
-                                                        <!--end::Input group-->
-                                                    </div>
-                                                    <!--end::Scroll-->
-                                                    <!--begin::Actions-->
-                                                    <div class="text-end pt-10 px-4">
-                                                        <button type="reset" class="btn btn-light me-3"
-                                                            data-bs-dismiss="modal">Discard</button>
-                                                        <button type="submit" class="btn btn-primary"
-                                                            data-kt-users-modal-action="submit">
-                                                            <span class="indicator-label">Submit</span>
-                                                            <span class="indicator-progress">Please wait...
-                                                                <span
-                                                                    class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                                        </button>
-                                                    </div>
-                                                    <!--end::Actions-->
-                                                </form>
-                                                <!--end::Form-->
-                                            </div>
-                                            <!--end::Modal body-->
-                                        </div>
-                                        <!--end::Modal content-->
-                                    </div>
-                                    <!--end::Modal dialog-->
-                                </div>
+                                @include('dashboard.employee_modal')
                                 <!--end::Modal - Add data-->
                                 <!--end::Toolbar-->
                             </div>
@@ -227,20 +137,49 @@
                             <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_custom">
                                 <thead>
                                     <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="min-w-125px">Employee Name</th>
-                                        <th class="min-w-125px">Date</th>
-                                        <th class="min-w-125px">Duration</th>
-                                        <th class="min-w-125px">Reason</th>
+                                        <th class="min-w-200px">Employee Name</th>
+                                        <th class="min-w-125px">Position</th>
+                                        <th class="min-w-125px">Gender</th>
+                                        <th class="min-w-125px">Employee Status</th>
+                                        <th class="min-w-125px">Join Date</th>
                                         <th class="text-end min-w-100px">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-semibold">
-                                    @foreach ($overtimes as $overtime)
+                                    @foreach ($employees as $employee)
                                         <tr>
-                                            <td class="text-gray-800">{{ $overtime->employee->name }}</td>
-                                            <td>{{ date('d F Y', strtotime($overtime->start_time)) }}</td>
-                                            <td>{{ $overtime->duration }}</td>
-                                            <td>{{ $overtime->reason ?? '-' }}</td>
+                                            <td class="d-flex align-items-center">
+                                                <!--begin:: Avatar -->
+                                                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                                                    @php
+                                                        $option = ['primary', 'danger', 'warning', 'success', 'info'];
+                                                        $index = array_rand($option);
+                                                    @endphp
+                                                    <div
+                                                        class="symbol-label fs-3 bg-light-{{ $option[$index] }} text-{{ $option[$index] }}">
+                                                        {{ ucwords($employee->name[0]) }}</div>
+                                                </div>
+                                                <!--end::Avatar-->
+                                                <!--begin::User details-->
+                                                <div class="d-flex flex-column">
+                                                    <div class="text-gray-800 text-hover-primary mb-1">
+                                                        {{ ucwords($employee->name) }}</div>
+                                                    <span>{{ $employee->email }}</span>
+                                                </div>
+                                                <!--begin::User details-->
+                                            </td>
+                                            <td>{{ ucfirst($employee->position) }}</td>
+                                            <td>{{ ucfirst($employee->gender) }}</td>
+                                            <td>
+                                                @if ($employee->status === 'permanent')
+                                                    <div class="text-info">Permanent</div>
+                                                @elseif ($employee->status === 'contract')
+                                                    <div class="text-warning">Contract</div>
+                                                @else
+                                                    <div class="text-primary">Freelance</div>
+                                                @endif
+                                            </td>
+                                            <td>{{ date('d F Y', strtotime($employee->join_date)) }}</td>
                                             <td class="text-end">
                                                 <a href="#"
                                                     class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
@@ -252,14 +191,14 @@
                                                     data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href={{ route('download_slip') }}
-                                                            class="menu-link px-3">Edit</a>
+                                                        <a href={{ route('employee.show', ['id' => $employee->id]) }}
+                                                            class="menu-link px-3">View</a>
                                                     </div>
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
                                                         <a href='#'
-                                                            onclick="confirmDelete('{{ route('overtime.delete', encrypt($overtime->id)) }}')"
+                                                            onclick="confirmDelete('{{ route('employee.delete', encrypt($employee->id)) }}')"
                                                             class="menu-link px-3">Delete
                                                         </a>
                                                     </div>
@@ -284,12 +223,4 @@
         <!--end::Content wrapper-->
     </div>
     <!--end:::Main-->
-@endsection
-@section('js')
-    @parent
-    <script>
-        $(".kt_date_picker").flatpickr({
-            dateFormat: "d F Y",
-        });
-    </script>
 @endsection
