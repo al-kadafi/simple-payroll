@@ -58,7 +58,7 @@
                                 <div class="d-flex align-items-center position-relative my-1">
                                     <i class="ki-outline ki-magnifier fs-3 position-absolute ms-5"></i>
                                     <input type="text" data-kt-custom-table-filter="search"
-                                        class="form-control form-control-solid w-250px ps-13" placeholder="Search user" />
+                                        class="form-control form-control-solid w-250px ps-13" placeholder="Search data" />
                                 </div>
                                 <!--end::Search-->
                             </div>
@@ -68,7 +68,7 @@
                                 <!--begin::Toolbar-->
                                 <div class="d-flex justify-content-end" data-kt-custom-table-toolbar="base">
                                     <!--begin::Add data-->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    <button id="btn_add" type="button" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#kt_modal_add_data">
                                         <i class="ki-outline ki-add-item fs-2"></i>Add Data</button>
                                     <!--end::Add data-->
@@ -77,7 +77,7 @@
                                 <div class="modal fade" data-bs-focus="false" id="kt_modal_add_data" tabindex="-1"
                                     aria-hidden="true">
                                     <!--begin::Modal dialog-->
-                                    <div class="modal-dialog modal-dialog-centered mw-500px">
+                                    <div class="modal-dialog modal-dialog-centered mw-550px">
                                         <!--begin::Modal content-->
                                         <div class="modal-content">
                                             <!--begin::Modal header-->
@@ -97,7 +97,7 @@
                                             <div class="modal-body px-5 my-3">
                                                 <!--begin::Form-->
                                                 <form id="kt_modal_add_data_form" class="form" method="POST"
-                                                    action={{ route('overtime.store') }}>
+                                                    action={{ route('overtime.store', ['id' => 0]) }}>
                                                     @csrf
                                                     <!--begin::Scroll-->
                                                     <div class="d-flex flex-column scroll-y px-3"
@@ -229,6 +229,7 @@
                                     <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                                         <th class="min-w-125px">Employee Name</th>
                                         <th class="min-w-125px">Date</th>
+                                        <th class="min-w-125px">Start Time</th>
                                         <th class="min-w-125px">Duration</th>
                                         <th class="min-w-125px">Reason</th>
                                         <th class="text-end min-w-100px">Actions</th>
@@ -239,6 +240,7 @@
                                         <tr>
                                             <td class="text-gray-800">{{ $overtime->employee->name }}</td>
                                             <td>{{ date('d F Y', strtotime($overtime->start_time)) }}</td>
+                                            <td>{{ date('H:i', strtotime($overtime->start_time)) }}</td>
                                             <td>{{ $overtime->duration }}</td>
                                             <td>{{ $overtime->reason ?? '-' }}</td>
                                             <td class="text-end">
@@ -252,7 +254,8 @@
                                                     data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href={{ route('download_slip') }}
+                                                        <a href='#'
+                                                            onclick='editData("{{ $overtime->id }}","{{ $overtime->employee->id }}","{{ $overtime->start_time }}","{{ $overtime->end_time }}","{{ $overtime->reason }}")'
                                                             class="menu-link px-3">Edit</a>
                                                     </div>
                                                     <!--end::Menu item-->
@@ -292,5 +295,29 @@
             enableTime: true,
             dateFormat: "d M Y H:i",
         });
+
+        function editData(id, employee_id, start_time, end_time, reason) {
+            $('[name=employee_id]').val(employee_id).trigger("change");
+            $('[name=reason]').text(reason)
+            $('[name=start_time]').flatpickr({
+                enableTime: true,
+                dateFormat: "d M Y H:i",
+                defaultDate: moment(start_time).format('DD MMM Y HH:mm')
+            });
+
+            $('[name=end_time]').flatpickr({
+                enableTime: true,
+                dateFormat: "d M Y H:i",
+                defaultDate: moment(end_time).format('DD MMM Y HH:mm')
+            });
+
+            $("#kt_modal_add_data").modal('show');
+            $("#kt_modal_add_data_form").attr("action", "/dashboard/overtime/" + id)
+        }
+
+        $("#btn_add").click(() => {
+            $("#kt_modal_add_data_form").attr("action", "/dashboard/overtime/0")
+            $("#kt_modal_add_data_form")[0].reset();
+        })
     </script>
 @endsection
