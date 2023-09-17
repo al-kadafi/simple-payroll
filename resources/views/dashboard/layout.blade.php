@@ -42,8 +42,8 @@
                                 <div class="app-navbar-item ms-1 ms-lg-3">
                                     <div class="d-flex flex-column">
                                         <div class="fw-bold fs-5">{{ auth()->user()->name }}</div>
-                                        <div class="fw-semibold text-muted text-hover-primary fs-7">
-                                            {{ auth()->user()->email }}
+                                        <div class="fw-semibold text-muted fs-7">
+                                            {{ ucwords(auth()->user()->role) }}
                                         </div>
                                     </div>
                                 </div>
@@ -178,42 +178,44 @@
                                             <!--end::Link-->
                                         </div>
                                         <!--end::Col-->
-                                        <!--begin::Col-->
-                                        <div class="col mb-4">
-                                            <!--begin::Link-->
-                                            <a href={{ route('employee') }}
-                                                class="{{ str_contains(request()->route()->getName(),'employee')? 'active border-light-primary': 'border-gray-200' }} btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px"
-                                                data-kt-button="true">
-                                                <!--begin::Icon-->
-                                                <span class="mb-2">
-                                                    <i class="ki-outline ki-people fs-1"></i>
-                                                </span>
-                                                <!--end::Icon-->
-                                                <!--begin::Label-->
-                                                <span class="fs-7 fw-bold">Employee</span>
-                                                <!--end::Label-->
-                                            </a>
-                                            <!--end::Link-->
-                                        </div>
-                                        <!--end::Col-->
-                                        <!--begin::Col-->
-                                        <div class="col mb-4">
-                                            <!--begin::Link-->
-                                            <a href={{ route('overtime') }}
-                                                class="{{ str_contains(request()->route()->getName(),'overtime')? 'active border-light-primary': 'border-gray-200' }} btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px"
-                                                data-kt-button="true">
-                                                <!--begin::Icon-->
-                                                <span class="mb-2">
-                                                    <i class="ki-outline ki-time fs-1"></i>
-                                                </span>
-                                                <!--end::Icon-->
-                                                <!--begin::Label-->
-                                                <span class="fs-7 fw-bold">Overtime</span>
-                                                <!--end::Label-->
-                                            </a>
-                                            <!--end::Link-->
-                                        </div>
-                                        <!--end::Col-->
+                                        @if (auth()->user()->role === 'staff')
+                                            <!--begin::Col-->
+                                            <div class="col mb-4">
+                                                <!--begin::Link-->
+                                                <a href={{ route('employee') }}
+                                                    class="{{ str_contains(request()->route()->getName(),'employee')? 'active border-light-primary': 'border-gray-200' }} btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px"
+                                                    data-kt-button="true">
+                                                    <!--begin::Icon-->
+                                                    <span class="mb-2">
+                                                        <i class="ki-outline ki-people fs-1"></i>
+                                                    </span>
+                                                    <!--end::Icon-->
+                                                    <!--begin::Label-->
+                                                    <span class="fs-7 fw-bold">Employee</span>
+                                                    <!--end::Label-->
+                                                </a>
+                                                <!--end::Link-->
+                                            </div>
+                                            <!--end::Col-->
+                                            <!--begin::Col-->
+                                            <div class="col mb-4">
+                                                <!--begin::Link-->
+                                                <a href={{ route('overtime') }}
+                                                    class="{{ str_contains(request()->route()->getName(),'overtime')? 'active border-light-primary': 'border-gray-200' }} btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px"
+                                                    data-kt-button="true">
+                                                    <!--begin::Icon-->
+                                                    <span class="mb-2">
+                                                        <i class="ki-outline ki-time fs-1"></i>
+                                                    </span>
+                                                    <!--end::Icon-->
+                                                    <!--begin::Label-->
+                                                    <span class="fs-7 fw-bold">Overtime</span>
+                                                    <!--end::Label-->
+                                                </a>
+                                                <!--end::Link-->
+                                            </div>
+                                            <!--end::Col-->
+                                        @endif
                                     </div>
                                     <!--end::Row-->
                                 </div>
