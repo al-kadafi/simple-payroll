@@ -24,12 +24,12 @@ class SalaryController extends Controller
     }
 
     /**
-     * view slip
+     * show slip
      *
      * @param  mixed $request
      * @return void
      */
-    public function view(Request $request)
+    public function show(Request $request)
     {
         $employee_id = $request->id;
         $date = $request->date;
