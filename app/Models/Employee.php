@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 
 class Employee extends Model
 {
     use SoftDeletes, HasFactory;
 
-    protected $fillable = ['id'];
+    protected $guarded = [];
 
     public function getWorkingPeriodAttribute()
     {
@@ -38,6 +39,16 @@ class Employee extends Model
         }
 
         return $years . $month;
+    }
+
+    public function setJoinDateAttribute($value)
+    {
+        $this->attributes['join_date'] = Carbon::createFromFormat('d F Y', $value)->format('Y-m-d');
+    }
+
+    public function setBirthDateAttribute($value)
+    {
+        $this->attributes['birth_date'] = Carbon::createFromFormat('d F Y', $value)->format('Y-m-d');
     }
 
     public function attendance()
