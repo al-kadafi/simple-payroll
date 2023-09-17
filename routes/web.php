@@ -30,12 +30,12 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::group(['prefix' => '/dashboard', 'middleware' => ['auth']], function () {
     Route::get('/salary', [SalaryController::class, 'index'])->name('salary');
     //salary route
-    Route::get('/salary/view/{id}/{date}', [SalaryController::class, 'view'])->name('salary.slip');
+    Route::get('/salary/slip/{id}/{date}', [SalaryController::class, 'show'])->name('salary.slip');
 
     Route::group(['middleware' => ['role:staff']], function () {
         //overtime route
         Route::get('/overtime', [OvertimeController::class, 'index'])->name('overtime');
-        Route::post('/overtime', [OvertimeController::class, 'store'])->name('overtime.store');
+        Route::post('/overtime/{id}', [OvertimeController::class, 'store'])->name('overtime.store');
         Route::get('/overtime/delete/{id}', [OvertimeController::class, 'delete'])->name('overtime.delete');
 
         //salary route
@@ -43,6 +43,8 @@ Route::group(['prefix' => '/dashboard', 'middleware' => ['auth']], function () {
 
         //employee route
         Route::get('/employee', [EmployeeController::class, 'index'])->name('employee');
-        Route::get('/employee/{id}', [EmployeeController::class, 'view'])->name('employee.view');
+        Route::post('/employee/{id}', [EmployeeController::class, 'store'])->name('employee.store');
+        Route::get('/employee/{id}', [EmployeeController::class, 'show'])->name('employee.show');
+        Route::get('/employee/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
     });
 });
