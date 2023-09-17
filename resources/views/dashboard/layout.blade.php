@@ -253,9 +253,19 @@
 @section('js')
     @parent
     <script>
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        // Get the value of month param
+        var month = urlSearchParams.get("month");
+
         $("#month_period").flatpickr({
             dateFormat: "F Y",
-            defaultDate: moment().format('MMMM Y'),
+            defaultDate: (month ? moment(month) : moment()).format('MMMM Y'),
+            onChange: function(selectedDates, dateStr, instance) {
+                let pathname = window.location.pathname;
+                let month = moment(new Date(dateStr)).format('Y-MM');
+
+                window.location = pathname + "?month=" + month;
+            }
         });
 
         "use strict";
