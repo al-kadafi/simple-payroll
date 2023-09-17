@@ -98,6 +98,11 @@
         }
     </script>
 @endif
+<script>
+    $(".kt_date_picker").flatpickr({
+        dateFormat: "d F Y",
+    });
+</script>
 @section('js')
 @show
 <!--end::Javascript-->
