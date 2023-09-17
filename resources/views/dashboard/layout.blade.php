@@ -115,7 +115,9 @@
                                 <div class="app-navbar-item ms-1 ms-lg-3">
                                     <!--begin::Menu wrapper-->
                                     <a href="/logout"
-                                        class="btn btn-icon btn-circle btn-color-gray-500 btn-active-color-primary btn-custom shadow-xs bg-body">
+                                        class="btn btn-icon btn-circle btn-color-gray-500 btn-active-color-primary btn-custom shadow-xs bg-body"
+                                        data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse"
+                                        data-bs-placement="top" title="Logout">
                                         <i class="ki-outline ki-exit-right fs-1"></i>
                                     </a>
                                     <!--end::Menu wrapper-->
@@ -151,7 +153,8 @@
                             <div id="kt_app_sidebar_nav_wrapper" class="d-flex flex-column hover-scroll-y pe-4 me-n4"
                                 data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto"
                                 data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
-                                data-kt-scroll-wrappers="#kt_app_sidebar, #kt_app_sidebar_nav" data-kt-scroll-offset="5px">
+                                data-kt-scroll-wrappers="#kt_app_sidebar, #kt_app_sidebar_nav"
+                                data-kt-scroll-offset="5px">
                                 <!--begin::Links-->
                                 <div class="mb-6">
                                     <!--begin::Title-->
