@@ -19,7 +19,7 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        $employees = Employee::oldest()->get();
+        $employees = Employee::latest()->get();
 
         return view('dashboard.employee', ['employees' => $employees]);
     }
@@ -33,9 +33,8 @@ class EmployeeController extends Controller
     public function show($id)
     {
         $employee = Employee::find($id);
-        $slips = Slip::oldest()->get();
 
-        return view('dashboard.profile', ['employee' => $employee, 'slips' => $slips]);
+        return view('dashboard.profile', ['employee' => $employee]);
     }
 
     /**
@@ -111,7 +110,11 @@ class EmployeeController extends Controller
                 ]);
         }
 
+        //delete user and related data (failed when use cascade on migration, so delete manually)
         $employee->delete();
+        $employee->slip()->delete();
+        $employee->overtime()->delete();
+        $employee->attendance()->delete();
 
         return redirect()
             ->route('employee')
