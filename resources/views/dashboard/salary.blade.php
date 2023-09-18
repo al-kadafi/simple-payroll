@@ -179,7 +179,7 @@
                                                     <div class="text-primary">Freelance</div>
                                                 @endif
                                             </td>
-                                            <td>{{ $slip->employee->working_period }}</td>
+                                            <td>{{ $slip->employee->getWorkingPeriod($slip->month_period) }}</td>
                                             <td>
                                                 @if ($slip->status === 'approved')
                                                     <div class="badge py-3 px-4 fs-7 badge-light-success">Approved</div>

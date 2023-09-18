@@ -288,7 +288,7 @@
                                         <div class="mb-6">
                                             <div class="fw-semibold text-gray-600 fs-7">Working Period:</div>
                                             <div class="fw-bold text-gray-800 fs-6">
-                                                {{ ucfirst($slip->employee->working_period) }}
+                                                {{ ucfirst($slip->employee->getWorkingPeriod($slip->month_period)) }}
                                             </div>
                                         </div>
                                         <!--end::Item-->
