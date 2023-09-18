@@ -12,11 +12,28 @@
             <div class="text-gray-500 fw-semibold fs-6">Attendance Made Easy: Your Workforce Advantage</div>
             <!--end::Subtitle=-->
         </div>
+        <!--begin::Input group-->
+        <div class="fv-row mb-8">
+            <!--begin::Label-->
+            <label class="required fw-semibold fs-6 mb-2">Type</label>
+            <!--end::Label-->
+            <!--begin::Select-->
+            <select name="type" class="form-select" data-control="select2"
+                data-hide-search="true" data-placeholder="Select Type" data-allow-clear="false" required>
+                <option></option>
+                <option value="attend">Attend</option>
+                <option value="leave">Leave</option>
+            </select>
+            <!--end::Select-->
+        </div>
+        <!--end::Input group-->
         <!--begin::Heading-->
         <div class="fv-row mb-8">
             <label class="form-label">Employee</label>
             <!--begin::Select-->
-            <select class="form-select form-select-solid" data-kt-select2="true" data-placeholder="Select Employee" data-allow-clear="false" data-kt-user-table-filter="employee" data-hide-search="false" name="employee" required>
+            <select class="form-select" data-kt-select2="true" data-placeholder="Select Employee"
+                data-allow-clear="false" data-kt-user-table-filter="employee_id" data-hide-search="false" name="employee_id"
+                required>
                 <option></option>
                 @foreach ($employees as $employee)
                     <option value={{ $employee->id }}>{{ $employee->name }}</option>
@@ -29,8 +46,7 @@
         <div class="fv-row mb-3">
             <label class="form-label">Date</label>
             <!--begin::Email-->
-            <input class="form-control form-control-solid kt_date_picker" placeholder="Pick date"
-                name="date" required/>
+            <input class="form-control kt_date_picker" placeholder="Pick date" name="date" required />
             <!--end::Email-->
         </div>
         <!--end::Input group=-->
