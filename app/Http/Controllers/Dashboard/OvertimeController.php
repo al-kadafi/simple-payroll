@@ -27,9 +27,9 @@ class OvertimeController extends Controller
 
         $overtimes = Overtime::whereMonth('start_time', $month)
             ->whereYear('start_time', $year)
-            ->oldest()
+            ->latest()
             ->get();
-        $employees = Employee::oldest()->get();
+        $employees = Employee::latest()->get();
 
         return view('dashboard.overtime', ['overtimes' => $overtimes, 'employees' => $employees]);
     }
