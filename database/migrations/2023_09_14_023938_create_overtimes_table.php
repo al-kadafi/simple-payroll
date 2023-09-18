@@ -15,11 +15,14 @@ class CreateOvertimesTable extends Migration
     {
         Schema::create('overtimes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('employee_id');
+            $table->integer('employee_id')->unsigned();
             $table->datetime('start_time');
             $table->datetime('end_time');
             $table->text('reason')->nullable();
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 

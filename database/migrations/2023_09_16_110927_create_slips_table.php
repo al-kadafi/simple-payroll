@@ -15,10 +15,13 @@ class CreateSlipsTable extends Migration
     {
         Schema::create('slips', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('employee_id');
-            $table->string('month_period');
-            $table->enum('status', ['approved', 'rejected','draft']);
+            $table->integer('employee_id')->unsigned();
+            $table->date('month_period');
+            $table->enum('status', ['approved', 'rejected','draft'])->default('draft');
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 

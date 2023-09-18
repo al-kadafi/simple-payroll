@@ -15,11 +15,14 @@ class CreateAttendancesTable extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('employee_id');
+            $table->integer('employee_id')->unsigned();;
             $table->time('start_time')->default('07:30:00');
             $table->time('end_time')->default('16:30:00');
             $table->date('date');
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 
