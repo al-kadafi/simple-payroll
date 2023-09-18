@@ -326,20 +326,20 @@
             KTUsersList.init();
         });
 
-        function confirmDelete(url) {
+        function confirm(url, message = 'You won\'t be able to revert this!') {
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'You won\'t be able to revert this!',
+                text: message,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
+                confirmButtonText: 'Yes, sure!',
                 customClass: {
                     confirmButton: "btn btn-primary fs-5",
                     cancelButton: 'btn btn-danger fs-5'
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Redirect to the delete route with the record ID
+                    // Redirect to the route with the record ID
                     window.location = url;
                 }
             });

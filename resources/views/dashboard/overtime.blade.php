@@ -262,7 +262,7 @@
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
                                                         <a href='#'
-                                                            onclick="confirmDelete('{{ route('overtime.delete', encrypt($overtime->id)) }}')"
+                                                            onclick="confirm('{{ route('overtime.delete', encrypt($overtime->id)) }}')"
                                                             class="menu-link px-3">Delete
                                                         </a>
                                                     </div>
