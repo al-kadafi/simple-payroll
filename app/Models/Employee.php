@@ -33,12 +33,26 @@ class Employee extends Model
         }
 
         if ($month > 0) {
-            $month = $month . ($years == 1 ? ' Month ':' Months ');
+            $month = $month . ($month == 1 ? ' Month ':' Months ');
         } else {
-            $month = $day . ($years == 1 ? ' Day ':' Days ');
+            $month = $day . ($day == 1 ? ' Day ':' Days ');
         }
 
         return $years . $month;
+    }
+
+    public function getWorkingYearAttribute()
+    {
+        $currentDate = new \DateTime();
+        $join = new \DateTime($this->join_date);
+
+        // Calculate the difference
+        $interval = $currentDate->diff($join);
+
+        // Access the difference in years, months, and days
+        $years = $interval->y;
+
+        return $years;
     }
 
     public function setJoinDateAttribute($value)
@@ -59,5 +73,10 @@ class Employee extends Model
     public function overtime()
     {
         return $this->hasMany('App\Models\Overtime', 'employee_id');
+    }
+
+    public function slip()
+    {
+        return $this->hasMany('App\Models\Slip', 'employee_id');
     }
 }
