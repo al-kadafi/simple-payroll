@@ -19,6 +19,7 @@ class CreateAttendancesTable extends Migration
             $table->time('start_time')->default('07:30:00');
             $table->time('end_time')->default('16:30:00');
             $table->date('date');
+            $table->enum('type', ['attend', 'leave'])->default('attend');
             $table->softDeletes();
             $table->timestamps();
 
