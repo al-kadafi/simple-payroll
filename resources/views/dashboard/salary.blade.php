@@ -31,9 +31,9 @@
                         <!--end::Breadcrumb-->
                     </div>
                     <!--end::Page title-->
-                    <div class="d-flex align-items-center fw-bold gap-2">
+                    <div class="d-flex align-items-center fw-bold gap-4">
                         <!--begin::Label-->
-                        <div class="text-gray-400 fs-7 me-2">Month</div>
+                        <div class="text-gray-400 fs-7">Month</div>
                         <!--end::Label-->
                         <!--begin::Date-->
                         <input class="form-control form-control-solid shadow-xs bg-body" placeholder="Pick a Month"
@@ -140,6 +140,11 @@
                                     </div>
                                     <!--end::Menu 1-->
                                     <!--end::Filter-->
+                                    <a href={{ route('slip.generate', ['month' => request()->get('month') ?? date('Y-m')]) }}
+                                        class="btn btn-primary">
+                                        <i class="ki-outline ki-add-item fs-2"></i>Generate Slip</a>
+                                    {{-- <a href="#" class="btn fw-bold btn-primary w-100"><i
+                                            class="ki-outline ki-add-item fs-2"></i>Generate Slip</a> --}}
                                 </div>
                                 <!--end::Toolbar-->
                             </div>
@@ -156,64 +161,39 @@
                                         <th class="min-w-125px">Position</th>
                                         <th class="min-w-125px">Employee Status</th>
                                         <th class="min-w-125px">Working Period</th>
-                                        <th class="min-w-125px">Net Salary</th>
                                         <th class="min-w-125px">Approval Status</th>
                                         <th class="text-end min-w-100px">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-semibold">
-                                    @foreach ($employees as $employee)
+                                    @foreach ($slips as $slip)
                                         <tr>
-                                            <td class="text-gray-800">{{ ucwords($employee->name) }}</td>
-                                            <td>{{ ucfirst($employee->position) }}</td>
+                                            <td class="text-gray-800">{{ ucwords($slip->employee->name) }}</td>
+                                            <td>{{ ucfirst($slip->employee->position) }}</td>
                                             <td>
-                                                @if ($employee->status === 'permanent')
+                                                @if ($slip->employee->status === 'permanent')
                                                     <div class="text-info">Permanent</div>
-                                                @elseif ($employee->status === 'contract')
+                                                @elseif ($slip->employee->status === 'contract')
                                                     <div class="text-warning">Contract</div>
                                                 @else
                                                     <div class="text-primary">Freelance</div>
                                                 @endif
                                             </td>
-                                            <td>{{ $employee->working_period }}</td>
-                                            <td>{{ currency_format($employee->id * 1000000) }}</td>
+                                            <td>{{ $slip->employee->working_period }}</td>
                                             <td>
-                                                @if ($employee->id % 3 === 0)
+                                                @if ($slip->status === 'approved')
                                                     <div class="badge py-3 px-4 fs-7 badge-light-success">Approved</div>
-                                                @elseif($employee->id % 2 === 0)
+                                                @elseif($slip->status === 'rejected')
                                                     <div class="badge py-3 px-4 fs-7 badge-light-danger">Rejected</div>
                                                 @else
                                                     <div class="badge py-3 px-4 fs-7 badge-light-dark">Draft</div>
                                                 @endif
                                             </td>
                                             <td class="text-end">
-                                                <a href="#"
-                                                    class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
-                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Slip
-                                                    <i class="ki-outline ki-down fs-5 ms-1"></i></a>
-                                                <!--begin::Menu-->
-                                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
-                                                    data-kt-menu="true">
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href={{ route('salary.slip', ['id' => $employee->id, 'date' => 'September 2023']) }}
-                                                            class="menu-link px-3">View</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href={{ route('download_slip') }}
-                                                            class="menu-link px-3">Download</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href={{ route('download_slip') }} class="menu-link px-3">Print
-                                                        </a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                </div>
-                                                <!--end::Menu-->
+                                                <a href={{ route('salary.slip', ['id' => $slip->id]) }}
+                                                    class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"><i
+                                                        class="ki-outline ki-eye fs-5 ms-1"></i>View
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
