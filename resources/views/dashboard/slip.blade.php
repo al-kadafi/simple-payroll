@@ -46,7 +46,13 @@
                         @if (auth()->user()->role === 'staff')
                             <!--begin::Download button-->
                             <button id="download-slip" class="btn btn-sm btn-flex btn-secondary fw-bold">
-                                <i class="ki-outline ki-file-down fs-6 me-1"></i>Download</button>
+                                <span class="download-label"><i
+                                        class="ki-outline ki-file-down fs-6 me-1"></i>Download</span>
+                                <!--begin::Indicator progress-->
+                                <span class="indicator-progress">Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                <!--end::Indicator progress-->
+                            </button>
                             <!--end::Download button-->
                             <!--begin::Print button-->
                             <button id="print-slip" class="btn btn-sm fw-bold btn-primary"> <i
@@ -322,7 +328,8 @@
 
             $('#download-slip').click(function() {
                 window.jsPDF = window.jspdf.jsPDF;
-
+                $('.indicator-progress').show();
+                $('.download-label').hide();
                 domtoimage.toPng(document.getElementById('printable'))
                     .then(function(blob) {
                         var pdf = new jsPDF('l', 'pt', [$('#printable').width(), $('#printable')
@@ -332,7 +339,9 @@
                         pdf.addImage(blob, 'PNG', 0, 0, $('#printable').width(), $('#printable')
                             .height());
                         pdf.save("Salary Slip-{{ $slip->employee->name }}.pdf");
-                        window.open(pdf.output('datauristring'));
+
+                        $('.indicator-progress').hide();
+                        $('.download-label').show();
                     });
             });
             $('#print-slip').click(function() {
