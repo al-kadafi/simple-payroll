@@ -42,6 +42,9 @@ Route::group(['prefix' => '/dashboard', 'middleware' => ['auth']], function () {
         Route::post('/employee/{id}', [EmployeeController::class, 'store'])->name('employee.store');
         Route::get('/employee/{id}', [EmployeeController::class, 'show'])->name('employee.show');
         Route::get('/employee/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
+
+        //attendance route
+        Route::get('/attendance', [AttendanceController::class, 'list'])->name('attendance.list');
     });
 
     //general salary route
