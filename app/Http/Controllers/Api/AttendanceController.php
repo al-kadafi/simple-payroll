@@ -42,22 +42,27 @@ class AttendanceController extends Controller
         $end_date = $date->endOfMonth();
 
         $absent_days = 0;
-        $working_day = 0;
+        $working_days = 0;
+        $leave_days = 0;
 
         //check all date
         while ($start_date <= $end_date) {
             // check day
             if ($start_date->dayOfWeek != Carbon::SATURDAY && $start_date->dayOfWeek != Carbon::SUNDAY) {
                 // check attendance data
-                $attendanceCount = Attendance::where('employee_id', $request->employee_id)
+                $attendance = Attendance::where('employee_id', $request->employee_id)
                     ->whereDate('date', $start_date)
-                    ->count();
+                    ->first();
 
                 // Add absent day when no data found
-                if ($attendanceCount == 0) {
+                if (empty($attendance)) {
                     $absent_days++;
                 } else {
-                    $working_day++;
+                    if ($attendance->type === 'attend') {
+                        $working_days++;
+                    } else {
+                        $leave_days++;
+                    }
                 }
             }
 
@@ -65,7 +70,7 @@ class AttendanceController extends Controller
             $start_date->addDay();
         }
 
-        $res = ['absent_days' => $absent_days, 'working_days' => $working_day];
+        $res = ['absent_days' => $absent_days, 'working_days' => $working_days, 'leave_days' => $leave_days];
 
         return response()->json(['message' => 'success', 'data' => $res]);
     }
