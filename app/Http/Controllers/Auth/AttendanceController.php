@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Employee;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -31,6 +32,7 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
+        //initialize rule
         $rules = [
             'date' => 'required|string',
             'employee_id' => 'required|numeric',
@@ -39,6 +41,7 @@ class AttendanceController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
 
+        //check validation
         if ($validator->fails()) {
             foreach ($validator->errors()->toArray() as $err) {
                 $message = implode(', ', $err);
@@ -57,6 +60,7 @@ class AttendanceController extends Controller
 
         $employee = Employee::find($request->employee_id);
 
+        //check working year
         if ($request->type === 'leave' && $employee->working_year === 0) {
             return redirect()
                 ->back()
@@ -68,6 +72,24 @@ class AttendanceController extends Controller
                 ]);
         }
 
+        //get formated date
+        $date = Carbon::createFromFormat('d F Y', $request->date)->format('Y-m-d');
+
+        $exist = Attendance::where('date', $date)->first();
+
+        //check is exist
+        if (isset($exist)) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('message', [
+                    'title' => 'Error',
+                    'type' => 'error',
+                    'msg' => "$employee->name has been $request->type on $request->date",
+                ]);
+        }
+
+        //save data
         Attendance::create($request->except('_token'));
 
         return redirect()
@@ -77,5 +99,18 @@ class AttendanceController extends Controller
                 'type' => 'success',
                 'msg' => 'Attendance successfully added',
             ]);
+    }
+
+    /**
+     * index
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function list(Request $request)
+    {
+        $employees = Employee::latest()->get();
+
+        return view('dashboard.attendance', ['employees' => $employees]);
     }
 }
