@@ -148,9 +148,9 @@
                                         <tr>
                                             <td>
                                                 <!--begin::Details item-->
-                                                <div class="text-gray-600">Join Date</div>
+                                                <div class="text-gray-600">Working Period</div>
                                                 <div class="fw-bold">
-                                                    {{ date('d F Y', strtotime($employee->join_date)) }}</div>
+                                                    {{ $employee->getWorkingPeriod() }}</div>
                                                 <!--begin::Details item-->
                                             </td>
                                             <td>
@@ -168,38 +168,6 @@
                                             </td>
                                         </tr>
                                     </table>
-
-                                    {{-- <!--end::Summary-->
-                                    <!--begin::Details content-->
-                                    <div class="pb-5 fs-6">
-                                        <!--begin::Details item-->
-                                        <div class="fw-bold mt-5">Account ID</div>
-                                        <div class="text-gray-600">ID-45453423</div>
-                                        <!--begin::Details item-->
-                                        <!--begin::Details item-->
-                                        <div class="fw-bold mt-5">Email</div>
-                                        <div class="text-gray-600">
-                                            <a href="#"
-                                                class="text-gray-600 text-hover-primary">info@keenthemes.com</a>
-                                        </div>
-                                        <!--begin::Details item-->
-                                        <!--begin::Details item-->
-                                        <div class="fw-bold mt-5">Address</div>
-                                        <div class="text-gray-600">101 Collin Street,
-                                            <br />Melbourne 3000 VIC
-                                            <br />Australia
-                                        </div>
-                                        <!--begin::Details item-->
-                                        <!--begin::Details item-->
-                                        <div class="fw-bold mt-5">Language</div>
-                                        <div class="text-gray-600">English</div>
-                                        <!--begin::Details item-->
-                                        <!--begin::Details item-->
-                                        <div class="fw-bold mt-5">Last Login</div>
-                                        <div class="text-gray-600">20 Jun 2023, 8:43 pm</div>
-                                        <!--begin::Details item-->
-                                    </div>
-                                    <!--end::Details content--> --}}
                                 </div>
                                 <!--end::Card body-->
                             </div>
@@ -304,7 +272,8 @@
                     defaultDate: value,
                 });
             } else {
-                $('[name=' + key + ']').val(employee[key])
+                $('[name=' + key + ']').val(key === 'basic_salary' || key === 'allowance' ? formatCurrency(employee[key]) :
+                    employee[key])
             }
 
         }
