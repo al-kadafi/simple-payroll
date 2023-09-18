@@ -33,7 +33,8 @@ class AttendanceController extends Controller
     {
         $rules = [
             'date' => 'required|string',
-            'employee' => 'required|numeric',
+            'employee_id' => 'required|numeric',
+            'type' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -54,10 +55,20 @@ class AttendanceController extends Controller
                 ]);
         }
 
-        Attendance::create([
-            'employee_id' => $request->employee,
-            'date' => $request->date,
-        ]);
+        $employee = Employee::find($request->employee_id);
+
+        if ($request->type === 'leave' && $employee->working_year === 0) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('message', [
+                    'title' => 'Error',
+                    'type' => 'error',
+                    'msg' => "Working duration from $employee->name less that 1 year",
+                ]);
+        }
+
+        Attendance::create($request->except('_token'));
 
         return redirect()
             ->back()
