@@ -45,26 +45,36 @@
                     <div class="d-flex align-items-center gap-2 gap-lg-3">
                         @if (auth()->user()->role === 'staff')
                             <!--begin::Download button-->
-                            <a href="#" class="btn btn-sm btn-flex btn-secondary fw-bold">
-                                <i class="ki-outline ki-file-down fs-6 me-1"></i>Download</a>
+                            <button id="download-slip" class="btn btn-sm btn-flex btn-secondary fw-bold">
+                                <i class="ki-outline ki-file-down fs-6 me-1"></i>Download</button>
                             <!--end::Download button-->
                             <!--begin::Print button-->
-                            <a href="#" class="btn btn-sm fw-bold btn-primary"> <i
-                                    class="ki-outline ki-printer fs-6 me-1"></i>Print</a>
+                            <button id="print-slip" class="btn btn-sm fw-bold btn-primary"> <i
+                                    class="ki-outline ki-printer fs-6 me-1"></i>Print</button>
                             <!--end::Print button-->
                         @else
-                            <!--begin::Download button-->
-                            <a href="#" class="btn btn-sm btn-flex btn-secondary fw-bold">
-                                <i class="ki-outline ki-file-sheet fs-6 me-1"></i>Set to Draft</a>
-                            <!--end::Download button-->
-                            <!--begin::Print button-->
-                            <a href="#" class="btn btn-sm fw-bold btn-danger"> <i
-                                    class="ki-outline ki-cross-square fs-6 me-1"></i>Reject Slip</a>
-                            <!--end::Print button-->
-                            <!--begin::Print button-->
-                            <a href="#" class="btn btn-sm fw-bold btn-primary"> <i
-                                    class="ki-outline ki-check-square fs-6 me-1"></i>Approve Slip</a>
-                            <!--end::Print button-->
+                            @if ($slip->status !== 'draft')
+                                <!--begin::Draft button-->
+                                <a href="#"
+                                    onclick="confirm('{{ route('slip.update', ['id' => encrypt($slip->id), 'status' => 'draft']) }}','Set this slip to Draft')"
+                                    class="btn btn-sm btn-flex btn-secondary fw-bold">
+                                    <i class="ki-outline ki-file-sheet fs-6 me-1"></i>Set to Draft</a>
+                                <!--end::Draft button-->
+                            @endif
+                            @if ($slip->status === 'draft')
+                                <!--begin::Reject button-->
+                                <a href="#"
+                                    onclick="confirm('{{ route('slip.update', ['id' => encrypt($slip->id), 'status' => 'rejected']) }}','Set this slip to Rejected')"
+                                    class="btn btn-sm fw-bold btn-danger"> <i
+                                        class="ki-outline ki-cross-square fs-6 me-1"></i>Reject Slip</a>
+                                <!--end::Reject button-->
+                                <!--begin::Approve button-->
+                                <a href="#"
+                                    onclick="confirm('{{ route('slip.update', ['id' => encrypt($slip->id), 'status' => 'approved']) }}','Set this slip to Approved')"
+                                    class="btn btn-sm fw-bold btn-primary"> <i
+                                        class="ki-outline ki-check-square fs-6 me-1"></i>Approve Slip</a>
+                                <!--end::Approve button-->
+                            @endif
                         @endif
                     </div>
                     <!--end::Actions-->
@@ -77,7 +87,7 @@
                 <!--begin::Content container-->
                 <div id="kt_app_content_container" class="app-container container-xxl">
                     <!--begin::Invoice 2 main-->
-                    <div class="card">
+                    <div class="card" id="printable">
                         <!--begin::Body-->
                         <div class="card-body p-lg-20">
                             <!--begin::Layout-->
@@ -92,7 +102,13 @@
                                             <div class="fw-bold fs-3 text-gray-800">Salary Slip</div>
                                             <!--end::Label-->
                                             <!--begin::Action-->
-                                            <div class="badge py-3 px-4 fs-7 badge-light-success">Approved</div>
+                                            @if ($slip->status === 'approved')
+                                                <div class="badge py-3 px-6 fs-7 badge-light-success">Approved</div>
+                                            @elseif($slip->status === 'rejected')
+                                                <div class="badge py-3 px-6 fs-7 badge-light-danger">Rejected</div>
+                                            @else
+                                                <div class="badge py-3 px-6 fs-7 badge-light-dark">Draft</div>
+                                            @endif
                                             <!--end::Action-->
                                         </div>
                                         <!--end::Top-->
@@ -117,9 +133,10 @@
                                                                         class="fa fa-genderless text-danger fs-2 me-2"></i>Basic
                                                                     Salary
                                                                 </td>
-                                                                <td class="pt-6">-</td>
+                                                                <td class="pt-6"></td>
                                                                 <td class="pt-6 text-dark fw-bold">
-                                                                    {{ currency_format(5000000) }}</td>
+                                                                    {{ currency_format($slip->detail['basic_salary']) }}
+                                                                </td>
                                                             </tr>
                                                             <tr class="fw-bold text-gray-700 fs-6 text-end">
                                                                 <td class="d-flex align-items-center">
@@ -127,28 +144,30 @@
                                                                         class="fa fa-genderless text-success fs-2 me-2"></i>Basic
                                                                     Allowance
                                                                 </td>
-                                                                <td>-</td>
+                                                                <td></td>
                                                                 <td class="fs-6 text-dark fw-bold">
-                                                                    {{ currency_format(2000000) }}</td>
+                                                                    {{ currency_format($slip->detail['basic_allowance']) }}
+                                                                </td>
                                                             </tr>
                                                             <tr class="fw-bold text-gray-700 fs-6 text-end">
                                                                 <td class="d-flex align-items-center">
                                                                     <i
                                                                         class="fa fa-genderless text-primary fs-2 me-2"></i>Insentif
                                                                 </td>
-                                                                <td>-</td>
+                                                                <td></td>
                                                                 <td class="fs-6 text-dark fw-bold">
-                                                                    {{ currency_format(1000000) }}</td>
+                                                                    {{ currency_format($slip->detail['insentif']) }}</td>
                                                             </tr>
                                                             <tr class="fw-bold text-gray-700 fs-6 text-end">
                                                                 <td class="d-flex align-items-center">
                                                                     <i
-                                                                        class="fa fa-genderless text-warning fs-2 me-2"></i>Extra
-                                                                    Time
+                                                                        class="fa fa-genderless text-warning fs-2 me-2"></i>Overtime
+                                                                    Salary
                                                                 </td>
-                                                                <td>6 Hours</td>
+                                                                <td>{{ $slip->detail['overtime_salary'][1] }}</td>
                                                                 <td class="fs-6 text-dark fw-bold">
-                                                                    {{ currency_format(500000) }}</td>
+                                                                    {{ currency_format($slip->detail['overtime_salary'][0]) }}
+                                                                </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -166,7 +185,7 @@
                                                             <!--end::Accountname-->
                                                             <!--begin::Label-->
                                                             <div class="text-end fw-bolder fs-6 text-gray-800">
-                                                                {{ currency_format(10000000) }}
+                                                                {{ currency_format($slip->detail['amount_plus']) }}
                                                             </div>
                                                             <!--end::Label-->
                                                         </div>
@@ -174,22 +193,24 @@
                                                         <!--begin::Item-->
                                                         <div class="d-flex flex-stack mb-3">
                                                             <!--begin::Accountname-->
-                                                            <div class="fw-semibold pe-10 text-gray-600 fs-7">NWNP</div>
+                                                            <div class="fw-semibold pe-10 text-gray-600 fs-7">NWNP
+                                                                {{ $slip->detail['nwnp'][1] }}</div>
                                                             <!--end::Accountname-->
                                                             <!--begin::Label-->
                                                             <div class="text-end fw-bold fs-6 text-gray-800">-
-                                                                {{ currency_format(100000) }}</div>
+                                                                {{ currency_format($slip->detail['nwnp'][0]) }}</div>
                                                             <!--end::Label-->
                                                         </div>
                                                         <!--end::Item-->
                                                         <!--begin::Item-->
                                                         <div class="d-flex flex-stack mb-3">
                                                             <!--begin::Accountnumber-->
-                                                            <div class="fw-semibold pe-10 text-gray-600 fs-7">BPJS</div>
+                                                            <div class="fw-semibold pe-10 text-gray-600 fs-7">BPJS Insurance
+                                                            </div>
                                                             <!--end::Accountnumber-->
                                                             <!--begin::Number-->
                                                             <div class="text-end fw-bold fs-6 text-gray-800">-
-                                                                {{ currency_format(100000) }}
+                                                                {{ currency_format($slip->detail['bpjs']) }}
                                                             </div>
                                                             <!--end::Number-->
                                                         </div>
@@ -208,7 +229,7 @@
                                                     <!--end::Code-->
                                                     <!--begin::Label-->
                                                     <div class="text-end text-dark fw-bolder fs-6 text-gray-800">
-                                                        {{ currency_format(9800000) }}
+                                                        {{ currency_format($slip->detail['total']) }}
                                                     </div>
                                                     <!--end::Label-->
                                                 </div>
@@ -224,29 +245,39 @@
                                 <div class="m-0">
                                     <!--begin::Invoice 2 sidebar-->
                                     <div
-                                        class="d-print-none border border-dashed border-gray-300 card-rounded h-lg-100 min-w-md-350px p-9 bg-lighten">
+                                        class="border border-dashed border-gray-300 card-rounded h-lg-100 min-w-md-350px p-9 bg-lighten">
+                                        <div class="col-sm-6 mb-8">
+                                            <!--end::Label-->
+                                            <div class="fw-semibold fs-7 text-gray-600 mb-1">Month Period:</div>
+                                            <!--end::Label-->
+                                            <!--end::Col-->
+                                            <div class="fw-bold fs-6 text-gray-800">
+                                                {{ date('F Y', strtotime($slip->month_period)) }}</div>
+                                            <!--end::Col-->
+                                        </div>
                                         <!--begin::Title-->
-                                        <h6 class="mb-8 fw-bolder text-gray-600 text-hover-primary">EMPLOYEE DETAILS</h6>
+                                        <h6 class="mb-8 fw-bolder text-gray-600">EMPLOYEE DETAILS</h6>
                                         <!--end::Title-->
                                         <!--begin::Item-->
                                         <div class="mb-6">
                                             <div class="fw-semibold text-gray-600 fs-7">Name:</div>
-                                            <div class="fw-bold text-gray-800 fs-6">{{ $employee->name }}</div>
+                                            <div class="fw-bold text-gray-800 fs-6">{{ $slip->employee->name }}</div>
                                         </div>
                                         <!--end::Item-->
                                         <!--begin::Item-->
                                         <div class="mb-6">
                                             <div class="fw-semibold text-gray-600 fs-7">Position:</div>
-                                            <div class="fw-bold text-gray-800 fs-6">{{ ucfirst($employee->position) }}
+                                            <div class="fw-bold text-gray-800 fs-6">
+                                                {{ ucfirst($slip->employee->position) }}
                                             </div>
                                         </div>
                                         <!--end::Item-->
                                         <!--begin::Item-->
                                         <div class="mb-6">
                                             <div class="fw-semibold text-gray-600 fs-7">Employee Status:</div>
-                                            @if ($employee->status === 'permanent')
+                                            @if ($slip->employee->status === 'permanent')
                                                 <div class="fw-bold fs-6 text-info">Permanent Employee</div>
-                                            @elseif ($employee->status === 'contract')
+                                            @elseif ($slip->employee->status === 'contract')
                                                 <div class="fw-bold fs-6 text-warning">Contract Employee</div>
                                             @else
                                                 <div class="fw-bold fs-6 text-primary">Freelance Employee</div>
@@ -257,7 +288,7 @@
                                         <div class="mb-6">
                                             <div class="fw-semibold text-gray-600 fs-7">Working Period:</div>
                                             <div class="fw-bold text-gray-800 fs-6">
-                                                {{ ucfirst($employee->working_period) }}
+                                                {{ ucfirst($slip->employee->working_period) }}
                                             </div>
                                         </div>
                                         <!--end::Item-->
@@ -279,4 +310,34 @@
         <!--end::Content wrapper-->
     </div>
     <!--end:::Main-->
+@endsection
+@section('js')
+    @parent
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"
+        integrity="sha256-c9vxcXyAG4paArQG3xk6DjyW/9aHxai2ef9RpMWO44A=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.6.0/jQuery.print.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $('#download-slip').click(function() {
+                window.jsPDF = window.jspdf.jsPDF;
+
+                domtoimage.toPng(document.getElementById('printable'))
+                    .then(function(blob) {
+                        var pdf = new jsPDF('l', 'pt', [$('#printable').width(), $('#printable')
+                            .height()
+                        ]);
+
+                        pdf.addImage(blob, 'PNG', 0, 0, $('#printable').width(), $('#printable')
+                            .height());
+                        pdf.save("Salary Slip-{{ $slip->employee->name }}.pdf");
+                        window.open(pdf.output('datauristring'));
+                    });
+            });
+            $('#print-slip').click(function() {
+                $('#printable').print(); //returns the data uri string
+            });
+        });
+    </script>
 @endsection
