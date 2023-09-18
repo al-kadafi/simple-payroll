@@ -60,7 +60,7 @@ class SlipController extends Controller
         }
 
         //call api get attendance
-        $attendance_data = Attendance::getAttendanceData($slip->employee->id, $slip->month_period);
+        $attendance_data = Employee::getAttendanceData($slip->employee->id, $slip->month_period);
 
         if (isset($attendance_data['error_code'])) {
             return redirect()
