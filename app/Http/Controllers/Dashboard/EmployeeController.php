@@ -47,7 +47,7 @@ class EmployeeController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|string|email|max:255|unique:employees',
             'birth_place' => 'required',
             'birth_date' => 'required',
             'gender' => 'required',
