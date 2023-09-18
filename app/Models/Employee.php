@@ -13,13 +13,13 @@ class Employee extends Model
 
     protected $guarded = [];
 
-    public function getWorkingPeriodAttribute()
+    public function getWorkingPeriod($month_period = null)
     {
-        $currentDate = new \DateTime();
+        $date = $month_period ? new \DateTime($month_period) : new \DateTime();
         $join = new \DateTime($this->join_date);
 
         // Calculate the difference
-        $interval = $currentDate->diff($join);
+        $interval = $date->diff($join);
 
         // Access the difference in years, months, and days
         $years = $interval->y;
@@ -27,15 +27,15 @@ class Employee extends Model
         $day = $interval->d;
 
         if ($years > 0) {
-            $years = $years . ($years == 1 ? ' Year ':' Years ');
+            $years = $years . ($years == 1 ? ' Year ' : ' Years ');
         } else {
             $years = '';
         }
 
         if ($month > 0) {
-            $month = $month . ($month == 1 ? ' Month ':' Months ');
+            $month = $month . ($month == 1 ? ' Month ' : ' Months ');
         } else {
-            $month = $day . ($day == 1 ? ' Day ':' Days ');
+            $month = $day . ($day == 1 ? ' Day ' : ' Days ');
         }
 
         return $years . $month;
@@ -58,6 +58,16 @@ class Employee extends Model
     public function setJoinDateAttribute($value)
     {
         $this->attributes['join_date'] = Carbon::createFromFormat('d F Y', $value)->format('Y-m-d');
+    }
+
+    public function setBasicSalaryAttribute($value)
+    {
+        $this->attributes['basic_salary'] = deformat_currency($value);
+    }
+
+    public function setAllowanceAttribute($value)
+    {
+        $this->attributes['allowance'] = deformat_currency($value);
     }
 
     public function setBirthDateAttribute($value)
