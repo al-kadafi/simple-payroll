@@ -344,5 +344,10 @@
                 }
             });
         }
+
+        function formatCurrency(value) {
+            value = value.toString().replace(/\./g, "");
+            return Intl.NumberFormat('id-ID').format(value);
+        }
     </script>
 @endsection

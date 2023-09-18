@@ -114,8 +114,7 @@
                                     <select name="gender" class="form-select mb-3 mb-lg-0 rounded-start-0"
                                         data-control="select2" data-dropdown-parent="#kt_modal_add_data"
                                         data-hide-search="true" data-placeholder="Select Gender"
-                                        data-allow-clear="false"
-                                        required>
+                                        data-allow-clear="false" required>
                                         <option></option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
@@ -193,7 +192,7 @@
                                     Rp.
                                 </span>
                                 <!--begin::Input-->
-                                <input name="basic_salary" class="form-control mb-3 mb-lg-0"
+                                <input name="basic_salary" id="basic_salary" class="form-control mb-3 mb-lg-0"
                                     placeholder="Exp. 2.000.000" required />
                                 <!--end::Input-->
                             </div>
@@ -209,7 +208,7 @@
                                     Rp.
                                 </span>
                                 <!--begin::Input-->
-                                <input name="allowance" class="form-control mb-3 mb-lg-0"
+                                <input name="allowance" id="allowance" class="form-control mb-3 mb-lg-0"
                                     placeholder="Exp. 1.000.000" required />
                                 <!--end::Input-->
                             </div>
@@ -281,3 +280,19 @@
     <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Add data-->
+@section('js')
+    @parent
+    <script>
+        $(document).ready(function() {
+            $('#basic_salary').on("input", e => {
+                let value = e.target.value;
+                $('#basic_salary').val(formatCurrency(value));
+            })
+
+            $('#allowance').on("input", e => {
+                let value = e.target.value;
+                $('#allowance').val(formatCurrency(value));
+            })
+        });
+    </script>
+@endsection
