@@ -3,7 +3,7 @@
 **Description:**
 X-Payroll is a Laravel-based application designed for managing payroll-related tasks within an organization. It provides features for attendance and leave simulation, employee login (both as staff and supervisors), generating and managing monthly salary slips, as well as handling employee and overtime data. Additionally, it offers an API for simulating employee attendance.
 
-![x-payroll](./dashboard.png)
+![x-payroll](./data/dashboard.png)
 
 ## Features:
 
@@ -97,6 +97,8 @@ X-Payroll is a Laravel-based application designed for managing payroll-related t
    - email : fulan@email.com
    - password : password
 
+## Additional Data:
+You can access all the flows for each feature, including SQL files for example data, in the data folder
 
 ## Tech Stack:
 
