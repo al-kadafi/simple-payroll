@@ -44,7 +44,7 @@
                     <!--begin::Actions-->
                     <div class="d-flex align-items-center gap-2 gap-lg-3">
                         <!--begin::Delete button-->
-                        <a href="#" onclick="confirmDelete('{{ route('employee.delete', encrypt($employee->id)) }}')"
+                        <a href="#" onclick="confirm('{{ route('employee.delete', encrypt($employee->id)) }}')"
                             class="btn btn-sm fw-bold btn-danger"><i class="ki-outline ki-trash fs-6 me-1"></i>Delete
                             Employee</a>
                         <!--end::Delete button-->
@@ -170,7 +170,6 @@
                                     </table>
 
                                     {{-- <!--end::Summary-->
-                                    <div class="separator"></div>
                                     <!--begin::Details content-->
                                     <div class="pb-5 fs-6">
                                         <!--begin::Details item-->
@@ -239,17 +238,15 @@
                                     <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_custom">
                                         <thead>
                                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                                <th class="min-w-125px">Month Period</th>
-                                                <th class="min-w-125px">Net Salary</th>
+                                                <th class="w-200px">Month Period</th>
                                                 <th class="min-w-125px">Approval Status</th>
                                                 <th class="text-end min-w-100px">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-gray-600 fw-semibold">
-                                            @foreach ($slips as $slip)
+                                            @foreach ($employee->slip as $slip)
                                                 <tr>
-                                                    <td>{{ $slip->month_period }}</td>
-                                                    <td>{{ currency_format($employee->id * 1000000) }}</td>
+                                                    <td>{{ date('F Y', strtotime($slip->month_period)) }}</td>
                                                     <td>
                                                         @if ($slip->status === 'approved')
                                                             <div class="badge py-3 px-4 fs-7 badge-light-success">Approved
@@ -262,35 +259,10 @@
                                                         @endif
                                                     </td>
                                                     <td class="text-end">
-                                                        <a href="#"
-                                                            class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
-                                                            data-kt-menu-trigger="click"
-                                                            data-kt-menu-placement="bottom-end">Slip
-                                                            <i class="ki-outline ki-down fs-5 ms-1"></i></a>
-                                                        <!--begin::Menu-->
-                                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
-                                                            data-kt-menu="true">
-                                                            <!--begin::Menu item-->
-                                                            <div class="menu-item px-3">
-                                                                <a href={{ route('salary.slip', ['id' => $slip->id, 'date' => 'September 2023']) }}
-                                                                    class="menu-link px-3">View</a>
-                                                            </div>
-                                                            <!--end::Menu item-->
-                                                            <!--begin::Menu item-->
-                                                            <div class="menu-item px-3">
-                                                                <a href={{ route('download_slip') }}
-                                                                    class="menu-link px-3">Download</a>
-                                                            </div>
-                                                            <!--end::Menu item-->
-                                                            <!--begin::Menu item-->
-                                                            <div class="menu-item px-3">
-                                                                <a href={{ route('download_slip') }}
-                                                                    class="menu-link px-3">Print
-                                                                </a>
-                                                            </div>
-                                                            <!--end::Menu item-->
-                                                        </div>
-                                                        <!--end::Menu-->
+                                                        <a href={{ route('salary.slip', ['id' => $slip->id]) }}
+                                                            class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"><i
+                                                                class="ki-outline ki-eye fs-5 ms-1"></i>View
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @endforeach
