@@ -72,7 +72,7 @@ X-Payroll is a Laravel-based application designed for managing payroll-related t
    php artisan serve
    ```
 
-8. For the API host, run:
+8. Mmake sure you also run the host API:
    ```
    php artisan serve --port 3001
    ```
