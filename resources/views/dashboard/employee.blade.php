@@ -198,7 +198,7 @@
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
                                                         <a href='#'
-                                                            onclick="confirmDelete('{{ route('employee.delete', encrypt($employee->id)) }}')"
+                                                            onclick="confirm('{{ route('employee.delete', encrypt($employee->id)) }}')"
                                                             class="menu-link px-3">Delete
                                                         </a>
                                                     </div>
