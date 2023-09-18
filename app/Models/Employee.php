@@ -61,15 +61,19 @@ class Employee extends Model
         $username = '76FD2153EFB37';
         $password = 'E4gWSjezm67vRvr2IIBhdcIVH6M5NDp7Dv4fSqrXRvuJbNEChThRyp2QaGcBIwM6';
 
-        $response = Http::withBasicAuth($username, $password)->get($api_url, $params);
+        try {
+            $response = Http::withBasicAuth($username, $password)->get($api_url, $params);
 
-        if ($response->successful()) {
-            $data = $response->json();
-            // Process the API response data here
-            return $data['data'];
-        } else {
-            // Handle the API request error
-            return $response->json();
+            if ($response->successful()) {
+                $data = $response->json();
+                // Process the API response data here
+                return $data['data'];
+            } else {
+                // Handle the API request error
+                return $response->json();
+            }
+        } catch (\Throwable $th) {
+            return ['message' => 'API host not started, please start use php artisan serve --port 3001', 'error_code' => '500'];
         }
     }
 
