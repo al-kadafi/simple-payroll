@@ -140,11 +140,11 @@
                                     </div>
                                     <!--end::Menu 1-->
                                     <!--end::Filter-->
-                                    <a href={{ route('slip.generate', ['month' => request()->get('month') ?? date('Y-m')]) }}
-                                        class="btn btn-primary">
-                                        <i class="ki-outline ki-add-item fs-2"></i>Generate Slip</a>
-                                    {{-- <a href="#" class="btn fw-bold btn-primary w-100"><i
-                                            class="ki-outline ki-add-item fs-2"></i>Generate Slip</a> --}}
+                                    @if (auth()->user()->role === 'staff')
+                                        <a href={{ route('slip.generate', ['month' => request()->get('month') ?? date('Y-m')]) }}
+                                            class="btn btn-primary">
+                                            <i class="ki-outline ki-add-item fs-2"></i>Generate Slip</a>
+                                    @endif
                                 </div>
                                 <!--end::Toolbar-->
                             </div>
