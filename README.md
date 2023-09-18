@@ -27,9 +27,12 @@ X-Payroll is a Laravel-based application designed for managing payroll-related t
 6. **Employee Attendance API Simulation:**
    - Simulate employee attendance through an API.
 
-6. **Mode:**
+7. **Mode:**
    - You can see application in Light Mode or Dark Mode
 
+8. **Auto Generate:**
+   - Generate Monthly Slips Automatically using jobs
+   
 ## How to Run the Program:
 
 1. Clone the project from the master branch:
