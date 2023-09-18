@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\AttendanceController;
-use App\Http\Controllers\Dashboard\SalaryController;
+use App\Http\Controllers\Dashboard\SlipController;
 use App\Http\Controllers\Dashboard\EmployeeController;
 use App\Http\Controllers\Dashboard\OvertimeController;
 
@@ -28,10 +28,6 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::group(['prefix' => '/dashboard', 'middleware' => ['auth']], function () {
-    Route::get('/salary', [SalaryController::class, 'index'])->name('salary');
-    //salary route
-    Route::get('/salary/slip/{id}/{date}', [SalaryController::class, 'show'])->name('salary.slip');
-
     Route::group(['middleware' => ['role:staff']], function () {
         //overtime route
         Route::get('/overtime', [OvertimeController::class, 'index'])->name('overtime');
@@ -39,7 +35,7 @@ Route::group(['prefix' => '/dashboard', 'middleware' => ['auth']], function () {
         Route::get('/overtime/delete/{id}', [OvertimeController::class, 'delete'])->name('overtime.delete');
 
         //salary route
-        Route::post('/salary/download', [SalaryController::class, 'download'])->name('download_slip');
+        Route::get('/salary/slip/generate', [SlipController::class, 'generate'])->name('slip.generate');
 
         //employee route
         Route::get('/employee', [EmployeeController::class, 'index'])->name('employee');
@@ -47,4 +43,9 @@ Route::group(['prefix' => '/dashboard', 'middleware' => ['auth']], function () {
         Route::get('/employee/{id}', [EmployeeController::class, 'show'])->name('employee.show');
         Route::get('/employee/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
     });
+
+    //general salary route
+    Route::get('/salary', [SlipController::class, 'index'])->name('salary');
+    Route::get('/salary/slip/{id}', [SlipController::class, 'show'])->name('salary.slip');
+    Route::get('/salary/slip/update/{id}/{status}', [SlipController::class, 'update'])->name('slip.update');
 });
