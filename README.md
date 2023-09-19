@@ -56,28 +56,32 @@ X-Payroll is a Laravel-based application designed for managing payroll-related t
    DB_USERNAME=<your_database_username>
    DB_PASSWORD=<your_database_password>
    ```
+5. Generate encryption key:
+   ```
+   php artisan key:generate
+   ```
 
-5. Generate the autoload files:
+6. Generate the autoload files:
    ```
    composer dump-autoload
    ```
 
-6. Migrate the database and seed it with initial data:
+7. Migrate the database and seed it with initial data:
    ```
    php artisan migrate:refresh --seed
    ```
 
-7. Run the application on the main host:
+8. Run the application on the main host:
    ```
    php artisan serve
    ```
 
-8. Mmake sure you also run the host API:
+9. Mmake sure you also run the host API:
    ```
    php artisan serve --port 3001
    ```
 
-9. Access the application in your browser at `http://localhost:8000`.
+10. Access the application in your browser at `http://localhost:8000`.
 
 ## Simulating Employee Attendance:
 
