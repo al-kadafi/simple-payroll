@@ -47,7 +47,6 @@ class EmployeeController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'email' => 'required|string|email|max:255|unique:employees',
             'birth_place' => 'required',
             'birth_date' => 'required',
             'gender' => 'required',
@@ -58,6 +57,12 @@ class EmployeeController extends Controller
             'join_date' => 'required',
             'insurance' => 'required',
         ];
+
+        if ($request->id) {
+            $rules['email'] = 'required|string|email|max:255';
+        } else {
+            $rules['email'] = 'required|string|email|max:255|unique:employees';
+        }
 
         $validator = Validator::make($request->all(), $rules);
 
