@@ -35,8 +35,10 @@ class Employee extends Model
 
         if ($month > 0) {
             $month = $month . ($month == 1 ? ' Month ' : ' Months ');
-        } else {
+        } elseif ($day > 0) {
             $month = $day . ($day == 1 ? ' Day ' : ' Days ');
+        } else {
+            $month = '';
         }
 
         return $years . $month;
