@@ -95,11 +95,8 @@ class SlipController extends Controller
         $year = $filter->year;
         $month = $filter->month;
 
-        // Calculate the last day of the month
-        $lastDay = $filter->endOfMonth();
-
         // Format the last day as 'Y-m-d'
-        $formatted_date = $lastDay->format('Y-m-d');
+        $formatted_date = $filter->format('Y-m-d');
 
         //get all employee
         $employees = Employee::whereDate('join_date', '<=', $formatted_date)->get();
@@ -217,7 +214,7 @@ class SlipController extends Controller
             'bpjs' => $bpjs,
             'amount_plus' => $amount_plus,
             'amount_min' => $amount_min,
-            'total' => $total,
+            'total' => $total
         ];
 
         return $salary;
