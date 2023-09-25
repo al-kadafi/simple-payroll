@@ -47,11 +47,8 @@ class GenerateMonthlySlip extends Command
         $year = $filter->year;
         $month = $filter->month;
 
-        // Calculate the last day of the month
-        $lastDay = $filter->endOfMonth();
-
         // Format the last day as 'Y-m-d'
-        $formatted_date = $lastDay->format('Y-m-d');
+        $formatted_date = $filter->format('Y-m-d');
 
         //get all employee
         $employees = Employee::whereDate('join_date', '<=', $formatted_date)->get();
